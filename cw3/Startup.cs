@@ -9,9 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Wyklad3.Services;
+using cw3.Services;
 
-namespace Wyklad3
+namespace cw3
 {
     public class Startup
     {
@@ -29,7 +29,7 @@ namespace Wyklad3
             //Ninject
             //Autofac
             //...
-            services.AddTransient<IDbService, OracleDbService>();
+            services.AddSingleton<IDbService, MockDbService>();
             services.AddControllers();
         }
 
@@ -39,14 +39,6 @@ namespace Wyklad3
             app.UseDeveloperExceptionPage();
 
             app.UseRouting();
-
-            //Doklejal do odpowiedzi naglowek http
-            app.Use(async (context, c) =>
-            {
-                context.Response.Headers.Add("Secret", "1234");
-                await c.Invoke();
-            });
-            app.UseMiddleware<CustomMiddleware>();
 
             app.UseAuthorization();
 

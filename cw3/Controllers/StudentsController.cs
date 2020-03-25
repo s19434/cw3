@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Wyklad3.Models;
-using Wyklad3.Services;
+using cw3.Models;
+using cw3.Services;
 
-namespace Wyklad3.Controllers
+namespace cw3.Controllers
 {
     [Route("api/students")]
     [ApiController]
     public class StudentsController : ControllerBase
     {
-        private IDbService _dbService;
+        private readonly IDbService _dbService;
 
         public StudentsController(IDbService service)
         {
@@ -19,13 +19,8 @@ namespace Wyklad3.Controllers
 
         //2. QueryString
         [HttpGet]
-        public IActionResult GetStudents([FromServices]IDbService service, [FromQuery]string orderBy)
+        public IActionResult GetStudents(string orderBy)
         {
-            if (orderBy == "lastname")
-            {
-                return Ok(_dbService.GetStudents().OrderBy(s => s.LastName));
-            }
-
             return Ok(_dbService.GetStudents());
         }
 
@@ -36,10 +31,14 @@ namespace Wyklad3.Controllers
         {
             if (id == 1)
             {
-                return Ok("Jan");
+                return Ok("Kowalski");
             }
 
-            return NotFound("Student was not found");
+            else if (id == 2)
+            {
+                return Ok("Majewski");
+            }
+            return NotFound("Nie znaleziono studenta");
         }
 
         //3. Body - cialo zadan
@@ -49,6 +48,19 @@ namespace Wyklad3.Controllers
             student.IndexNumber=$"s{new Random().Next(1, 20000)}";
             //...
             return Ok(student); //JSON
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteStudent(int id)
+
+        {
+            return Ok("Usuwanie ukonczone");
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult PutStudent(int id)
+        {
+            return Ok("Aktualizacja dokonczona");
         }
 
 

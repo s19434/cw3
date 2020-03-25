@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Wyklad3.Models;
+using cw3.Models;
 
-namespace Wyklad3.Services
+namespace cw3.Services
 {
     public interface IDbService
     {
